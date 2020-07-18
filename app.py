@@ -13,7 +13,7 @@ def main():
     st.title("Simple Classification Web App")
     st.sidebar.title("Simple Classification Web App")
     st.markdown("## Are your mushrooms edible or poisonous? 🍄")
-    st.markdown("##### Created By Joseff Tan")
+    st.markdown("##### Created By Joseff Tan - [GitHub](https://github.com/ijoseff/Mushroom-Classification)")
     st.sidebar.markdown("Are your mushrooms edible or poisonous? 🍄")
 
     @st.cache(persist=True)
