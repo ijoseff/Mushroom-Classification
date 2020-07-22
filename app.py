@@ -14,13 +14,19 @@ from PIL import Image
 image = Image.open('mushroom.png')
 st.image(image, caption = ' ', use_column_width = True)
 
+st.title("Binary Classification Web App")
+st.sidebar.title("Binary Classification Web App")
+st.markdown("## Are your mushrooms edible or poisonous? 🍄")
+st.markdown("##### Created By Joseff Tan - [GitHub](https://github.com/ijoseff/Mushroom-Classification)")
+st.sidebar.markdown("Are your mushrooms edible or poisonous? 🍄")
+
+st.sidebar.header('User Input Features')
+st.sidebar.markdown("""[Example CSV input file](https://github.com/ijoseff/Mushroom-Classification/blob/master/mushrooms.csv)""")
+
+# Collects user input features into dataframe
+uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
 
 def main():
-    st.title("Binary Classification Web App")
-    st.sidebar.title("Binary Classification Web App")
-    st.markdown("## Are your mushrooms edible or poisonous? 🍄")
-    st.markdown("##### Created By Joseff Tan - [GitHub](https://github.com/ijoseff/Mushroom-Classification)")
-    st.sidebar.markdown("Are your mushrooms edible or poisonous? 🍄")
 
     @st.cache(persist=True)
     def load_data():
@@ -57,6 +63,13 @@ def main():
     class_names = ['edible', 'poisonous']
     
     x_train, x_test, y_train, y_test = split(df)
+
+    if st.sidebar.checkbox("Show Sample Data", False):
+        st.subheader("Mushroom Data Set (Classification)")
+        st.write(df)
+        st.markdown("This [data set](https://archive.ics.uci.edu/ml/datasets/Mushroom) includes descriptions of hypothetical samples corresponding to 23 species of gilled mushrooms "
+        "in the Agaricus and Lepiota Family (pp. 500-525). Each species is identified as definitely edible, definitely poisonous, "
+        "or of unknown edibility and not recommended. This latter class was combined with the poisonous one.")
 
     st.sidebar.subheader("Choose Classifier")
     classifier = st.sidebar.selectbox("Classifier", ("Support Vector Machine (SVM)", "Logistic Regression", "Random Forest"))
@@ -117,15 +130,6 @@ def main():
             st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
             plot_metrics(metrics)
 
-    if st.sidebar.checkbox("Show raw data", False):
-        st.subheader("Mushroom Data Set (Classification)")
-        st.write(df)
-        st.markdown("This [data set](https://archive.ics.uci.edu/ml/datasets/Mushroom) includes descriptions of hypothetical samples corresponding to 23 species of gilled mushrooms "
-        "in the Agaricus and Lepiota Family (pp. 500-525). Each species is identified as definitely edible, definitely poisonous, "
-        "or of unknown edibility and not recommended. This latter class was combined with the poisonous one.")
-
 
 if __name__ == '__main__':
     main()
-
-
